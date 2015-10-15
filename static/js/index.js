@@ -1050,6 +1050,18 @@ EpComments.prototype.saveComment = async function (data, rep) {
   const [commentId, comment] = res;
   comment.commentId = commentId;
 
+    if(window !== window.top) {
+      var data = {
+        event: 'addComment',
+        params: {
+          padId: pad.getPadId(),
+          comment: comment
+        }
+      }
+
+      window.top.postMessage(JSON.stringify(data), '*');
+    }
+
   this.ace.callWithAce((ace) => {
     // we should get rep again because the document might have changed..
     // details at https://github.com/ether/ep_comments/issues/133
