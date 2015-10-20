@@ -835,6 +835,18 @@ ep_comments.prototype.saveComment = function(data, rep) {
   self.socket.emit('addComment', data, function (commentId, comment){
     comment.commentId = commentId;
 
+    if(window !== window.top) {
+      var data = {
+        event: 'addComment',
+        params: {
+          padId: pad.getPadId(),
+          comment: comment
+        }
+      }
+
+      window.top.postMessage(JSON.stringify(data), '*');
+    }
+
     self.ace.callWithAce(function (ace){
       // console.log('addComment :: ', commentId);
       ace.ace_performSelectionChange(rep.selStart, rep.selEnd, true);
