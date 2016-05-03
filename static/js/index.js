@@ -15,7 +15,11 @@ var commentIcons = require('ep_comments_page/static/js/commentIcons');
 var newComment = require('ep_comments_page/static/js/newComment');
 var commentL10n = require('ep_comments_page/static/js/commentL10n');
 
-var cssFiles = ['ep_comments_page/static/css/comment.css', 'ep_comments_page/static/css/commentIcon.css'];
+var cssFiles = [
+  'ep_comments_page/static/css/comment.css',
+  'ep_comments_page/static/css/commentIcon.css',
+  'ep_comments_page/static/css/custom.css'
+];
 
 /************************************************************************/
 /*                         ep_comments Plugin                           */
