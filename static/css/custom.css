@@ -1,0 +1,28 @@
+/**
+ * Simple tweaks & harmless fixes.
+ * Prevent us from deeply changing the current plugin logic.
+ */
+
+.comment-modal {
+  /**
+   * Comments on smaller screens are hidden when the `mouseleave` triggers
+   * on the text itself, even if the cursor moves into the comment,
+   * which creates some flickering. With this, moving the cursor onto the
+   * comment keeps the comment into place.
+   * Note: if interaction with the comment is required, remove this and
+   * find another solution. */
+  pointer-events: none;
+}
+
+[id^=magicdomid] {
+  /**
+   * Another unwanted flickering effect happens when moving the cursor
+   * vertically over a multiline piece of text. This happens because the
+   * multiline text is wrapper inside a span, and together with its default
+   * `line-height`, hovering it along its vertical axis triggers continuous
+   * `mouseenter` and `mouseleave`. With the right line height, the lines
+   * end where the next one starts, so it emulates a single element,
+   * removing interruptions and preventing flicekring.
+   */
+  line-height: 1.37em;
+}
