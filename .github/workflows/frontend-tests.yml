@@ -7,7 +7,7 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
-    if: ${{ github.actor != 'dependabot[bot]' }}
+    if: secrets.SAUCE_USERNAME && github.actor != 'dependabot[bot]'
 
     steps:
       -
