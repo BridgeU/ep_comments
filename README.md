@@ -1,3 +1,57 @@
+# BridgeU Etherpad comments plugin.
+
+This repository represents BridgeU's modifications of the ep_comments_page
+Etherpad plugin.
+
+We use the comment plugin's functionality in our platform so that teachers can
+add comments to student's writing builder work (and the students can reply). In
+general, things that happen in Etherpad stay in Etherpad - most of the work
+happens in an iframe and communicates directly with the Etherpad app
+server/database. We don't even especially worry about tracking the content of
+the documents in the parent database, so long as students are able to get back
+to their original document later.
+
+However, we do want to know when a teacher leaves a comment on a student's
+document, so that we can send an in-app/email notification to the student
+immediately.
+
+Unfortunately, the architecture of the comments plugin makes it really hard for
+us to access that information from outside of the comment plugin itself, if we
+don't hook directly into the plugin's functionality. This plugin does not
+generate any externally trackable events, instead it communicates directly with
+the server using its own channel within a websocket, that other client-side code
+doesn't have any visibility of.
+
+This gave us two approaches to implementing comment notifications in BridgeU's
+writing builder:
+
+1. Write our own Etherpad plugin and find a way for that plugin to a) be aware
+    of the messages emitted from the comments plugin, and b) communicate that
+    from the server back to the client from our *own* websocket connection.
+
+    In theory this is very plausible, but in practice turned out to be tricky
+    enough that it didn't seem like a good investment of time
+
+2. Fork the comment plugin and inject our own event handling code directly into
+    the comment creation process.
+
+    This isn't a perfect process as any diversion from the base functionality
+    makes it trickier to upgrade the comment plugin at a later date.
+
+3. For completeness, we could also hook into the comment creation process from a
+    server-side point of view and trigger notifications in our parent project
+    directly from the Etherpad backend.
+
+    Actually this would be the ideal case, but would require a significant
+    architectural change which does not have enough benefit in a cost/benefit
+    comparison.
+
+This repository represents the outcome of using option 2 as our approach.
+
+What follows is the original README for this project:
+
+---
+
 ![Publish Status](https://github.com/ether/ep_comments_page/workflows/Node.js%20Package/badge.svg) ![Backend Tests Status](https://github.com/ether/ep_comments_page/workflows/Backend%20tests/badge.svg)
 
 # Comments and annotations for Etherpad
