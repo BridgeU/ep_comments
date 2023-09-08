@@ -1050,17 +1050,17 @@ EpComments.prototype.saveComment = async function (data, rep) {
   const [commentId, comment] = res;
   comment.commentId = commentId;
 
-    if(window !== window.top) {
-      var data = {
-        event: 'addComment',
-        params: {
-          padId: pad.getPadId(),
-          comment: comment
-        }
-      }
+  if (window !== window.top) {
+    const event = {
+      event: 'addComment',
+      params: {
+        padId: pad.getPadId(),
+        comment,
+      },
+    };
 
-      window.top.postMessage(JSON.stringify(data), '*');
-    }
+    window.top.postMessage(JSON.stringify(event), '*');
+  }
 
   this.ace.callWithAce((ace) => {
     // we should get rep again because the document might have changed..
